@@ -27,7 +27,7 @@
       <view class="cat-badge"><text>遇见 {{formatDaysAgo(cat.createTime)}}</text></view>
     </view>
     
-    <view class="location-row">
+    <view class="location-row" wx:if="{{cat.location && cat.location.name}}">
       <text class="location-icon">📍</text>
       <text class="location-text">{{cat.location.name}}</text>
     </view>
@@ -55,7 +55,7 @@
     </view>
   </view>
 
-  <view class="section-card">
+  <view class="section-card" wx:if="{{cat.attributes.specialFeatures || cat.attributes.eyeColor}}">
     <view class="section-header">
       <text class="section-icon">🎨</text>
       <text class="section-title">外貌特征</text>
@@ -72,7 +72,7 @@
     </view>
   </view>
 
-  <view class="section-card">
+  <view class="section-card" wx:if="{{(cat.attributes.personalities && cat.attributes.personalities.length > 0) || cat.attributes.relationships}}">
     <view class="section-header">
       <text class="section-icon">💖</text>
       <text class="section-title">性格行为</text>
@@ -94,7 +94,7 @@
     </view>
   </view>
 
-  <view class="section-card">
+  <view class="section-card" wx:if="{{cat.attributes.healthStatus || cat.attributes.healthNote}}">
     <view class="section-header">
       <text class="section-icon">🏥</text>
       <text class="section-title">健康状态</text>
@@ -138,12 +138,13 @@
         </view>
         <view class="sound-info">
           <text class="sound-desc">{{item.desc || '猫咪叫声'}}</text>
-          <text class="sound-duration">{{item.duration.toFixed(1)}}秒</text>
+          <text class="sound-duration">{{(item.duration || 0).toFixed(1)}}秒</text>
         </view>
       </view>
     </view>
   </view>
 
+  <!-- 有坐标 → 地图卡片 -->
   <view class="section-card" wx:if="{{cat.location && cat.location.longitude}}">
     <view class="section-header">
       <text class="section-icon">🗺️</text>
@@ -165,6 +166,18 @@
         <text class="map-name">{{cat.location.name}}</text>
         <text class="map-address">{{cat.location.address}}</text>
       </view>
+    </view>
+  </view>
+
+  <!-- 无坐标但有地址 → 文本地址卡片 -->
+  <view class="section-card" wx:elif="{{cat.location && cat.location.name}}">
+    <view class="section-header">
+      <text class="section-icon">📍</text>
+      <text class="section-title">遇见位置</text>
+    </view>
+    <view class="loc-text-body">
+      <text class="loc-text-name">{{cat.location.name}}</text>
+      <text class="loc-text-address" wx:if="{{cat.location.address}}">{{cat.location.address}}</text>
     </view>
   </view>
 

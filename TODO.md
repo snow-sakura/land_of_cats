@@ -7,6 +7,28 @@
 
 ## 版本历史
 
+### v1.1.3
+
+> 日期：2026-05-19
+
+#### 详情页 UI 优化：空数据隐藏 + 地图/文本双模式
+
+- **`frontend/pages/detail/detail.wxml`**
+  - 信息卡「📍地点」行增加 `wx:if` 守卫，无地点名时不显示
+  - 外貌特征卡片增加 `wx:if` 守卫，无显著特征且无眼睛颜色时整卡隐藏
+  - 性格行为卡片增加 `wx:if="personalities或relationships非空"` 守卫
+  - 健康状态卡片增加 `wx:if="healthStatus或healthNote非空"` 守卫
+  - 声音时长 `item.duration.toFixed(1)` 改为 `(item.duration || 0).toFixed(1)`，防止 duration 为 undefined 时崩溃
+  - 位置区域重构为双模式：有坐标 → 地图卡片可点击导航；无坐标但有地址 → 文本地址卡片只读展示
+
+- **`frontend/pages/detail/detail.wxss`**
+  - 新增 `.loc-text-body`、`.loc-text-name`、`.loc-text-address` 样式，适配纯文本地址卡片
+
+- **`frontend/pages/detail/detail.js`**
+  - `formatDaysAgo(dateStr)` 增加空值守卫，`createTime` 为空时返回空字符串而非 "NaN月前遇见"
+
+---
+
 ### v1.1.2
 
 > 日期：2026-05-19
@@ -144,7 +166,7 @@
 ### 🔴 P0 — 高优先级
 
 - [ ] **首页加载状态优化**：图片加载失败时显示占位图，目前 `index.wxml:20` 使用了 `/images/default-cat.png` 但该文件不存在
-- [ ] **音频播放异常处理**：`detail.wxml:141` 中 `{{item.duration.toFixed(1)}}` 当 `duration` 为 `undefined` 时会崩溃，需加默认值守卫
+- [x] **音频播放异常处理**：`detail.wxml:141` 中 `{{item.duration.toFixed(1)}}` 当 `duration` 为 `undefined` 时会崩溃，需加默认值守卫 — **已修复于 v1.1.3**
 - [ ] **首页空数据兼容**：`index.wxml:30` 中 `{{item.location.name}}` 当 `location` 不存在时显示空白，需加守卫
 - [ ] **录音页数据传回**：`record.js` 的 `confirmRecord` 仅做 Toast 提示，实际未将音频数据传回 add/edit 页
 

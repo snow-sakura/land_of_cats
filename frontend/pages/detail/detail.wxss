@@ -285,6 +285,22 @@
   margin-top: 4rpx;
 }
 
+/* 文本地址卡片（无地图时） */
+.loc-text-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+.loc-text-name {
+  font-size: 28rpx;
+  color: #4A3424;
+  font-weight: 500;
+}
+.loc-text-address {
+  font-size: 24rpx;
+  color: #8B7355;
+}
+
 .notes-content {
   font-size: 28rpx;
   color: #4A3424;

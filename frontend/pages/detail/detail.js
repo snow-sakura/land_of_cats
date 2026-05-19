@@ -62,6 +62,7 @@ Page({
   },
 
   formatDaysAgo: function (dateStr) {
+    if (!dateStr) return ''
     return formatDaysAgo(dateStr)
   },
 
