@@ -66,6 +66,10 @@ Page({
     return formatDaysAgo(dateStr)
   },
 
+  formatDuration: function (duration) {
+    return (duration || 0).toFixed(1)
+  },
+
   getLabel: function (type, value) {
     const options = {
       hairLength: HAIR_LENGTH,

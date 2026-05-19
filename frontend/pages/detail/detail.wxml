@@ -138,7 +138,7 @@
         </view>
         <view class="sound-info">
           <text class="sound-desc">{{item.desc || '猫咪叫声'}}</text>
-          <text class="sound-duration">{{(item.duration || 0).toFixed(1)}}秒</text>
+          <text class="sound-duration">{{formatDuration(item.duration)}}秒</text>
         </view>
       </view>
     </view>
