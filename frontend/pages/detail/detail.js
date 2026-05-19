@@ -17,7 +17,24 @@ Page({
     },
     currentPhoto: 0,
     playingSound: '',
-    markers: []
+    markers: [],
+    // 可见性标志（在 JS 中计算，WXML 只引用简单布尔值）
+    _hasPhotos: false,
+    _hasLocationName: false,
+    _hasTags: false,
+    _hasAppearanceSection: false,
+    _hasSpecialFeatures: false,
+    _hasEyeColor: false,
+    _hasPersonalitySection: false,
+    _hasPersonalityTags: false,
+    _hasRelationships: false,
+    _hasHealthSection: false,
+    _hasHealthStatus: false,
+    _hasSounds: false,
+    _hasMap: false,
+    _hasTextAddress: false,
+    _hasAddress: false,
+    _hasNotes: false
   },
 
   onLoad: function (options) {
@@ -51,7 +68,9 @@ Page({
         width: 40,
         height: 40
       }] : []
-      that.setData({ cat, markers })
+      // 预计算所有可见性标志，避免 WXML 复杂表达式解析异常
+      const flags = that._computeFlags(cat)
+      that.setData({ cat, markers, ...flags })
       wx.hideLoading()
     }).catch(err => {
       wx.hideLoading()
@@ -59,6 +78,29 @@ Page({
       wx.showToast({ title: err.message || '加载失败', icon: 'none' })
       setTimeout(() => wx.navigateBack(), 1500)
     })
+  },
+
+  // 根据实际数据计算各区域可见性
+  _computeFlags: function (cat) {
+    const attr = cat.attributes || {}
+    return {
+      _hasPhotos: !!(cat.photos && cat.photos.length > 0),
+      _hasLocationName: !!(cat.location && cat.location.name),
+      _hasTags: !!((attr.coatColors && attr.coatColors.length > 0) || attr.hairLength || attr.bodyType),
+      _hasAppearanceSection: !!(attr.specialFeatures || attr.eyeColor),
+      _hasSpecialFeatures: !!attr.specialFeatures,
+      _hasEyeColor: !!attr.eyeColor,
+      _hasPersonalitySection: !!((attr.personalities && attr.personalities.length > 0) || attr.relationships),
+      _hasPersonalityTags: !!(attr.personalities && attr.personalities.length > 0),
+      _hasRelationships: !!attr.relationships,
+      _hasHealthSection: !!(attr.healthStatus || attr.healthNote),
+      _hasHealthStatus: !!attr.healthStatus,
+      _hasSounds: !!(cat.sounds && cat.sounds.length > 0),
+      _hasMap: !!(cat.location && cat.location.longitude),
+      _hasTextAddress: !!(cat.location && cat.location.name && !cat.location.longitude),
+      _hasAddress: !!(cat.location && cat.location.address),
+      _hasNotes: !!cat.notes
+    }
   },
 
   formatDaysAgo: function (dateStr) {

@@ -1,17 +1,17 @@
 <view class="container">
-  <view class="photo-carousel">
-    <swiper 
-      class="swiper" 
-      indicator-dots="true" 
+  <view class="photo-carousel" wx:if="{{_hasPhotos}}">
+    <swiper
+      class="swiper"
+      indicator-dots="true"
       indicator-color="rgba(255,255,255,0.5)"
       indicator-active-color="#FFFFFF"
       autoplay="false"
       circular="true"
     >
       <swiper-item wx:for="{{cat.photos}}" wx:key="id">
-        <image 
-          class="carousel-img" 
-          src="{{item.url}}" 
+        <image
+          class="carousel-img"
+          src="{{item.url}}"
           mode="aspectFill"
           bindtap="previewPhoto"
           data-index="{{index}}"
@@ -26,28 +26,28 @@
       <view class="cat-name"><text>{{cat.nickname}}</text></view>
       <view class="cat-badge"><text>遇见 {{formatDaysAgo(cat.createTime)}}</text></view>
     </view>
-    
-    <view class="location-row" wx:if="{{cat.location && cat.location.name}}">
+
+    <view class="location-row" wx:if="{{_hasLocationName}}">
       <text class="location-icon">📍</text>
       <text class="location-text">{{cat.location.name}}</text>
     </view>
-    
-    <view class="tags-row">
-      <view 
-        class="tag tag-primary" 
-        wx:for="{{cat.attributes.coatColors}}" 
+
+    <view class="tags-row" wx:if="{{_hasTags}}">
+      <view
+        class="tag tag-primary"
+        wx:for="{{cat.attributes.coatColors}}"
         wx:key="*this"
       >
         <text>{{item}}</text>
       </view>
-      <view 
-        class="tag tag-info" 
+      <view
+        class="tag tag-info"
         wx:if="{{cat.attributes.hairLength}}"
       >
         <text>{{getLabel('hairLength', cat.attributes.hairLength)}}</text>
       </view>
-      <view 
-        class="tag tag-info" 
+      <view
+        class="tag tag-info"
         wx:if="{{cat.attributes.bodyType}}"
       >
         <text>{{getLabel('bodyType', cat.attributes.bodyType)}}</text>
@@ -55,52 +55,52 @@
     </view>
   </view>
 
-  <view class="section-card" wx:if="{{cat.attributes.specialFeatures || cat.attributes.eyeColor}}">
+  <view class="section-card" wx:if="{{_hasAppearanceSection}}">
     <view class="section-header">
       <text class="section-icon">🎨</text>
       <text class="section-title">外貌特征</text>
     </view>
     <view class="detail-list">
-      <view class="detail-item" wx:if="{{cat.attributes.specialFeatures}}">
+      <view class="detail-item" wx:if="{{_hasSpecialFeatures}}">
         <text class="detail-label">显著特征</text>
         <text class="detail-value">{{cat.attributes.specialFeatures}}</text>
       </view>
-      <view class="detail-item" wx:if="{{cat.attributes.eyeColor}}">
+      <view class="detail-item" wx:if="{{_hasEyeColor}}">
         <text class="detail-label">眼部颜色</text>
         <text class="detail-value">{{getLabel('eyeColor', cat.attributes.eyeColor)}}</text>
       </view>
     </view>
   </view>
 
-  <view class="section-card" wx:if="{{(cat.attributes.personalities && cat.attributes.personalities.length > 0) || cat.attributes.relationships}}">
+  <view class="section-card" wx:if="{{_hasPersonalitySection}}">
     <view class="section-header">
       <text class="section-icon">💖</text>
       <text class="section-title">性格行为</text>
     </view>
     <view class="detail-list">
-      <view class="tags-row">
-        <view 
-          class="tag tag-success" 
-          wx:for="{{cat.attributes.personalities}}" 
+      <view class="tags-row" wx:if="{{_hasPersonalityTags}}">
+        <view
+          class="tag tag-success"
+          wx:for="{{cat.attributes.personalities}}"
           wx:key="*this"
         >
           <text>{{item}}</text>
         </view>
       </view>
-      <view class="detail-item" wx:if="{{cat.attributes.relationships}}">
+      <view class="detail-item" wx:if="{{_hasRelationships}}">
         <text class="detail-label">与其他猫关系</text>
         <text class="detail-value">{{cat.attributes.relationships}}</text>
       </view>
     </view>
   </view>
 
-  <view class="section-card" wx:if="{{cat.attributes.healthStatus || cat.attributes.healthNote}}">
+  <view class="section-card" wx:if="{{_hasHealthSection}}">
     <view class="section-header">
       <text class="section-icon">🏥</text>
       <text class="section-title">健康状态</text>
     </view>
     <view class="detail-list">
-      <view class="detail-item" wx:if="{{cat.attributes.healthStatus}}">
+      <view class="detail-item" wx:if="{{_hasHealthStatus}}">
         <text class="detail-label">健康状况</text>
         <view class="health-badge">
           <text>{{getLabel('healthStatus', cat.attributes.healthStatus)}}</text>
@@ -113,19 +113,19 @@
     </view>
   </view>
 
-  <view class="section-card" wx:if="{{cat.sounds && cat.sounds.length > 0}}">
+  <view class="section-card" wx:if="{{_hasSounds}}">
     <view class="section-header">
       <text class="section-icon">🔊</text>
       <text class="section-title">声音记录</text>
     </view>
     <view class="sound-list">
-      <view 
-        class="sound-item" 
-        wx:for="{{cat.sounds}}" 
+      <view
+        class="sound-item"
+        wx:for="{{cat.sounds}}"
         wx:key="id"
       >
-        <view 
-          class="sound-player {{playingSound === item.id ? 'playing' : ''}}" 
+        <view
+          class="sound-player {{playingSound === item.id ? 'playing' : ''}}"
           bindtap="playSound"
           data-url="{{item.url}}"
           data-id="{{item.id}}"
@@ -145,7 +145,7 @@
   </view>
 
   <!-- 有坐标 → 地图卡片 -->
-  <view class="section-card" wx:if="{{cat.location && cat.location.longitude}}">
+  <view class="section-card" wx:if="{{_hasMap}}">
     <view class="section-header">
       <text class="section-icon">🗺️</text>
       <text class="section-title">遇见位置</text>
@@ -170,18 +170,18 @@
   </view>
 
   <!-- 无坐标但有地址 → 文本地址卡片 -->
-  <view class="section-card" wx:elif="{{cat.location && cat.location.name}}">
+  <view class="section-card" wx:elif="{{_hasTextAddress}}">
     <view class="section-header">
       <text class="section-icon">📍</text>
       <text class="section-title">遇见位置</text>
     </view>
     <view class="loc-text-body">
       <text class="loc-text-name">{{cat.location.name}}</text>
-      <text class="loc-text-address" wx:if="{{cat.location.address}}">{{cat.location.address}}</text>
+      <text class="loc-text-address" wx:if="{{_hasAddress}}">{{cat.location.address}}</text>
     </view>
   </view>
 
-  <view class="section-card" wx:if="{{cat.notes}}">
+  <view class="section-card" wx:if="{{_hasNotes}}">
     <view class="section-header">
       <text class="section-icon">📝</text>
       <text class="section-title">备注故事</text>

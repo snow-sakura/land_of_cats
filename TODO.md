@@ -7,6 +7,43 @@
 
 ## 版本历史
 
+### v1.1.4
+
+> 日期：2026-05-19
+
+#### 详情页可见性全面重构：JS 预计算布尔标志，WXML 只引用简单变量
+
+**根因**：WXML 中复杂的 `||` / `&&` 嵌套表达式在 WeChat 小程序的模板引擎中解析可能异常，导致 `wx:if` 守卫失效，空标签行和空卡片仍被渲染。
+
+**修复方案**：将全部 16 个可见性判断移至 JS `_computeFlags()` 方法中，用原生 `!!` 转换为严格布尔值，通过 `setData` 注入。WXML 所有 `wx:if` 只引用简单的布尔标志。
+
+- **`frontend/pages/detail/detail.js`**
+  - `data` 增加 16 个 `_hasXxx` 布尔标志，默认 `false`
+  - 新增 `_computeFlags(cat)` 方法，根据实际数据预计算全部可见性
+  - `loadCatDetail` 中 API 返回后调用 `_computeFlags`，与 `cat` / `markers` 一并 `setData`
+
+- **`frontend/pages/detail/detail.wxml`**
+  - 照片轮播：`wx:if="{{_hasPhotos}}"`
+  - 信息卡地点行：`wx:if="{{_hasLocationName}}"`
+  - 信息卡标签行（毛色/毛长/体型全空时整行隐藏）：`wx:if="{{_hasTags}}"`
+  - 外貌特征卡片：`wx:if="{{_hasAppearanceSection}}"`
+    - 显著特征行：`wx:if="{{_hasSpecialFeatures}}"`
+    - 眼部颜色行：`wx:if="{{_hasEyeColor}}"`
+  - 性格行为卡片：`wx:if="{{_hasPersonalitySection}}"`
+    - 性格标签行：`wx:if="{{_hasPersonalityTags}}"`
+    - 与其他猫关系行：`wx:if="{{_hasRelationships}}"`
+  - 健康状态卡片：`wx:if="{{_hasHealthSection}}"`
+    - 健康状况行：`wx:if="{{_hasHealthStatus}}"`
+  - 声音记录卡片：`wx:if="{{_hasSounds}}"`
+  - 地图卡片（有坐标）：`wx:if="{{_hasMap}}"`
+  - 文本地址卡片（无坐标有地址）：`wx:elif="{{_hasTextAddress}}"`
+    - 地址行：`wx:if="{{_hasAddress}}"`
+  - 备注卡片：`wx:if="{{_hasNotes}}"`
+
+**效果**：所有卡片、标签行、属性行的显示/隐藏均由纯 JS 布尔值驱动，彻底消除 WXML 复杂表达式解析不可靠的问题。没有数据的内容在渲染树上根本不存在。
+
+---
+
 ### v1.1.3
 
 > 日期：2026-05-19
