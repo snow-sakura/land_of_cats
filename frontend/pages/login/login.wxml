@@ -1,0 +1,80 @@
+<view class="container">
+  <view class="login-header">
+    <text class="login-title">欢迎回来</text>
+    <text class="login-desc">记录你遇见的每一只猫咪</text>
+  </view>
+
+  <!-- 登录方式切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{loginTab === 0 ? 'tab-active' : ''}}" bindtap="switchTab" data-tab="0">
+      <text>微信</text>
+    </view>
+    <view class="tab-item {{loginTab === 1 ? 'tab-active' : ''}}" bindtap="switchTab" data-tab="1">
+      <text>手机</text>
+    </view>
+    <view class="tab-item {{loginTab === 2 ? 'tab-active' : ''}}" bindtap="switchTab" data-tab="2">
+      <text>密码</text>
+    </view>
+  </view>
+
+  <!-- 微信登录 -->
+  <view class="form-area" wx:if="{{loginTab === 0}}">
+    <view class="wx-prompt">
+      <view class="wx-icon">
+        <text class="wx-icon-text">微</text>
+      </view>
+      <text class="wx-desc">微信一键登录，快捷方便</text>
+    </view>
+    <button class="btn-wx-login" bindtap="handleWxLogin" loading="{{wxLoading}}">
+      <text class="btn-wx-text">微信一键登录</text>
+    </button>
+  </view>
+
+  <!-- 手机验证码登录 -->
+  <view class="form-area" wx:elif="{{loginTab === 1}}">
+    <view class="input-group">
+      <text class="input-label">手机号</text>
+      <input class="form-input" type="text" placeholder="请输入手机号" maxlength="11"
+        value="{{phone}}" bindinput="inputPhone" />
+    </view>
+    <view class="input-group code-group">
+      <text class="input-label">验证码</text>
+      <view class="code-row">
+        <input class="form-input code-input" type="text" placeholder="请输入验证码" maxlength="6"
+          value="{{smsCode}}" bindinput="inputSmsCode" />
+        <button class="btn-code {{codeSending || codeCountdown > 0 ? 'btn-code-disabled' : ''}}"
+          disabled="{{codeSending || codeCountdown > 0}}"
+          bindtap="sendSmsCode">
+          <text wx:if="{{codeCountdown > 0}}">{{codeCountdown}}s</text>
+          <text wx:else>获取验证码</text>
+        </button>
+      </view>
+    </view>
+    <button class="btn-submit" bindtap="handleSmsLogin" loading="{{smsLoading}}">
+      <text>登录</text>
+    </button>
+  </view>
+
+  <!-- 账号密码登录 -->
+  <view class="form-area" wx:else>
+    <view class="input-group">
+      <text class="input-label">用户名</text>
+      <input class="form-input" type="text" placeholder="请输入用户名"
+        value="{{username}}" bindinput="inputUsername" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input class="form-input" type="text" password="{{!showPassword}}" placeholder="请输入密码"
+        value="{{password}}" bindinput="inputPassword" />
+    </view>
+    <button class="btn-submit" bindtap="handlePasswordLogin" loading="{{pwdLoading}}">
+      <text>登录</text>
+    </button>
+  </view>
+
+  <!-- 跳转注册 -->
+  <view class="register-link">
+    <text>还没有账号？</text>
+    <text class="link-text" bindtap="goToRegister">立即注册</text>
+  </view>
+</view>

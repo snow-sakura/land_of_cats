@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">我遇见的猫咪</text>
+    <text class="header-count">共 {{catList.length}} 只</text>
+  </view>
+
+  <view class="cat-grid" wx:if="{{catList.length > 0}}">
+    <view
+      class="polaroid-card"
+      wx:for="{{catList}}"
+      wx:key="id"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+      style="transform: rotate({{getRandomRotate(item.id)}}deg);"
+    >
+      <!-- 拍立得照片框 -->
+      <view class="photo-frame">
+        <image
+          class="frame-img"
+          src="{{item.photos[0].url || '/images/default-cat.png'}}"
+          mode="aspectFill"
+        />
+      </view>
+      <!-- 信息区 -->
+      <view class="card-info">
+        <text class="cat-name">{{item.nickname}}</text>
+        <view class="info-divider"></view>
+        <view class="meta-line">
+          <text class="meta-icon">📍</text>
+          <text class="meta-text">{{item.location.name}}</text>
+        </view>
+        <view class="meta-line">
+          <text class="meta-icon">🕐</text>
+          <text class="meta-text">{{formatDaysAgo(item.createTime)}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <view class="empty-illustration">
+      <view class="cat-illustration">
+        <view class="cat-body"></view>
+        <view class="cat-head">
+          <view class="cat-ear cat-ear-left"></view>
+          <view class="cat-ear cat-ear-right"></view>
+          <view class="cat-face">
+            <view class="cat-eye cat-eye-left"></view>
+            <view class="cat-eye cat-eye-right"></view>
+            <view class="cat-nose"></view>
+            <view class="cat-mouth"></view>
+          </view>
+        </view>
+        <view class="cat-tail"></view>
+      </view>
+    </view>
+    <view class="empty-text"><text>你还没有记录任何猫咪</text></view>
+    <view class="empty-hint"><text>点击下方 + 开始记录吧</text></view>
+  </view>
+</view>

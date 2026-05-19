@@ -1,0 +1,189 @@
+<view class="container">
+  <view class="photo-carousel">
+    <swiper 
+      class="swiper" 
+      indicator-dots="true" 
+      indicator-color="rgba(255,255,255,0.5)"
+      indicator-active-color="#FFFFFF"
+      autoplay="false"
+      circular="true"
+    >
+      <swiper-item wx:for="{{cat.photos}}" wx:key="id">
+        <image 
+          class="carousel-img" 
+          src="{{item.url}}" 
+          mode="aspectFill"
+          bindtap="previewPhoto"
+          data-index="{{index}}"
+        />
+      </swiper-item>
+    </swiper>
+    <view class="carousel-count"><text>{{cat.photos && cat.photos.length ? (currentPhoto + 1) + ' / ' + cat.photos.length : ''}}</text></view>
+  </view>
+
+  <view class="info-card">
+    <view class="info-header">
+      <view class="cat-name"><text>{{cat.nickname}}</text></view>
+      <view class="cat-badge"><text>遇见 {{formatDaysAgo(cat.createTime)}}</text></view>
+    </view>
+    
+    <view class="location-row">
+      <text class="location-icon">📍</text>
+      <text class="location-text">{{cat.location.name}}</text>
+    </view>
+    
+    <view class="tags-row">
+      <view 
+        class="tag tag-primary" 
+        wx:for="{{cat.attributes.coatColors}}" 
+        wx:key="*this"
+      >
+        <text>{{item}}</text>
+      </view>
+      <view 
+        class="tag tag-info" 
+        wx:if="{{cat.attributes.hairLength}}"
+      >
+        <text>{{getLabel('hairLength', cat.attributes.hairLength)}}</text>
+      </view>
+      <view 
+        class="tag tag-info" 
+        wx:if="{{cat.attributes.bodyType}}"
+      >
+        <text>{{getLabel('bodyType', cat.attributes.bodyType)}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-header">
+      <text class="section-icon">🎨</text>
+      <text class="section-title">外貌特征</text>
+    </view>
+    <view class="detail-list">
+      <view class="detail-item" wx:if="{{cat.attributes.specialFeatures}}">
+        <text class="detail-label">显著特征</text>
+        <text class="detail-value">{{cat.attributes.specialFeatures}}</text>
+      </view>
+      <view class="detail-item" wx:if="{{cat.attributes.eyeColor}}">
+        <text class="detail-label">眼部颜色</text>
+        <text class="detail-value">{{getLabel('eyeColor', cat.attributes.eyeColor)}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-header">
+      <text class="section-icon">💖</text>
+      <text class="section-title">性格行为</text>
+    </view>
+    <view class="detail-list">
+      <view class="tags-row">
+        <view 
+          class="tag tag-success" 
+          wx:for="{{cat.attributes.personalities}}" 
+          wx:key="*this"
+        >
+          <text>{{item}}</text>
+        </view>
+      </view>
+      <view class="detail-item" wx:if="{{cat.attributes.relationships}}">
+        <text class="detail-label">与其他猫关系</text>
+        <text class="detail-value">{{cat.attributes.relationships}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-header">
+      <text class="section-icon">🏥</text>
+      <text class="section-title">健康状态</text>
+    </view>
+    <view class="detail-list">
+      <view class="detail-item" wx:if="{{cat.attributes.healthStatus}}">
+        <text class="detail-label">健康状况</text>
+        <view class="health-badge">
+          <text>{{getLabel('healthStatus', cat.attributes.healthStatus)}}</text>
+        </view>
+      </view>
+      <view class="detail-item" wx:if="{{cat.attributes.healthNote}}">
+        <text class="detail-label">健康备注</text>
+        <text class="detail-value">{{cat.attributes.healthNote}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card" wx:if="{{cat.sounds && cat.sounds.length > 0}}">
+    <view class="section-header">
+      <text class="section-icon">🔊</text>
+      <text class="section-title">声音记录</text>
+    </view>
+    <view class="sound-list">
+      <view 
+        class="sound-item" 
+        wx:for="{{cat.sounds}}" 
+        wx:key="id"
+      >
+        <view 
+          class="sound-player {{playingSound === item.id ? 'playing' : ''}}" 
+          bindtap="playSound"
+          data-url="{{item.url}}"
+          data-id="{{item.id}}"
+        >
+          <view class="speaker">
+            <view class="wave wave-1"></view>
+            <view class="wave wave-2"></view>
+            <view class="wave wave-3"></view>
+          </view>
+        </view>
+        <view class="sound-info">
+          <text class="sound-desc">{{item.desc || '猫咪叫声'}}</text>
+          <text class="sound-duration">{{item.duration.toFixed(1)}}秒</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card" wx:if="{{cat.location && cat.location.longitude}}">
+    <view class="section-header">
+      <text class="section-icon">🗺️</text>
+      <text class="section-title">遇见位置</text>
+    </view>
+    <view
+      class="map-area"
+      bindtap="openMap"
+    >
+      <map
+        class="mini-map"
+        longitude="{{cat.location.longitude}}"
+        latitude="{{cat.location.latitude}}"
+        scale="16"
+        markers="{{markers}}"
+        show-info-window="true"
+      />
+      <view class="map-overlay">
+        <text class="map-name">{{cat.location.name}}</text>
+        <text class="map-address">{{cat.location.address}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card" wx:if="{{cat.notes}}">
+    <view class="section-header">
+      <text class="section-icon">📝</text>
+      <text class="section-title">备注故事</text>
+    </view>
+    <view class="notes-content"><text>{{cat.notes}}</text></view>
+  </view>
+
+  <view class="bottom-bar">
+    <button class="btn-edit" bindtap="goToEdit">
+      <text class="btn-icon">✏️</text>
+      <text>编辑档案</text>
+    </button>
+    <button class="btn-delete" bindtap="deleteCat">
+      <text class="btn-icon">🗑️</text>
+      <text>删除档案</text>
+    </button>
+  </view>
+</view>

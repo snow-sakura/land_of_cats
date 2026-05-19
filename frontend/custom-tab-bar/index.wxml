@@ -1,0 +1,29 @@
+<view class="custom-tab-bar">
+  <view 
+    class="tab-item" 
+    wx:for="{{tabList}}" 
+    wx:key="index"
+    bindtap="switchTab"
+    data-path="{{item.pagePath}}"
+    class="{{currentPath === item.pagePath ? 'active' : ''}}"
+  >
+    <view class="tab-icon">
+      <view class="cat-paw" wx:if="{{index === 0}}">
+        <view class="pad pad-1"></view>
+        <view class="pad pad-2"></view>
+        <view class="pad pad-3"></view>
+        <view class="pad pad-4"></view>
+        <view class="pad pad-5"></view>
+      </view>
+      <view class="plus-icon" wx:elif="{{index === 1}}">
+        <view class="plus-horizontal"></view>
+        <view class="plus-vertical"></view>
+      </view>
+      <view class="person-icon" wx:else>
+        <view class="person-head"></view>
+        <view class="person-body"></view>
+      </view>
+    </view>
+    <text class="tab-text">{{item.text}}</text>
+  </view>
+</view>

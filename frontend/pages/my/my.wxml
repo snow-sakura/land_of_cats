@@ -1,0 +1,94 @@
+<view class="container">
+  <!-- ===== 未登录状态 ===== -->
+  <view class="guest-area" wx:if="{{!loggedIn}}">
+    <view class="avatar-ring">
+      <view class="avatar-default">
+        <view class="avatar-head"></view>
+        <view class="avatar-body"></view>
+      </view>
+    </view>
+    <view class="login-prompt">
+      <text class="login-title">登录流浪猫足迹</text>
+      <text class="login-desc">记录每一只遇见的猫咪</text>
+    </view>
+    <button class="btn-login" bindtap="goToLogin">登录 / 注册</button>
+
+    <view class="feature-preview">
+      <view class="feature-item">
+        <view class="feature-icon">🐱</view>
+        <text class="feature-text">记录猫咪档案</text>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📸</view>
+        <text class="feature-text">拍照记录瞬间</text>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">🔊</view>
+        <text class="feature-text">录制猫咪叫声</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 已登录状态 ===== -->
+  <view class="user-area" wx:else>
+    <!-- 用户头部 -->
+    <view class="user-header">
+      <view class="user-avatar">
+        <image class="avatar-img" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+      </view>
+      <view class="user-info">
+        <text class="user-nickname">{{userInfo.nickname}}</text>
+        <text class="user-username">@{{userInfo.username}}</text>
+      </view>
+    </view>
+
+    <!-- 统计数据 -->
+    <view class="stats-row">
+      <view class="stat-item">
+        <text class="stat-num">{{catStats.total}}</text>
+        <text class="stat-label">猫咪</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{catStats.photos}}</text>
+        <text class="stat-label">照片</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{catStats.sounds}}</text>
+        <text class="stat-label">录音</text>
+      </view>
+    </view>
+
+    <!-- 菜单列表 -->
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goToMyCats">
+        <text class="menu-icon">📋</text>
+        <text class="menu-text">我的档案</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" wx:if="{{userInfo.phone}}" bindtap="bindPhone">
+        <text class="menu-icon">📱</text>
+        <text class="menu-text">绑定手机</text>
+        <text class="menu-tag">{{userInfo.phone}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" wx:else bindtap="bindPhone">
+        <text class="menu-icon">📱</text>
+        <text class="menu-text">绑定手机</text>
+        <text class="menu-tag-unbound">未绑定</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="goToAbout">
+        <text class="menu-icon">ℹ️</text>
+        <text class="menu-text">关于</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 退出登录 -->
+    <button class="btn-logout" bindtap="logout">退出登录</button>
+  </view>
+
+  <view class="version">v1.0.0 流浪猫足迹</view>
+</view>

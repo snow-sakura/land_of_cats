@@ -1,0 +1,84 @@
+<view class="container">
+  <view class="record-header">
+    <view class="header-title"><text>录制猫咪叫声</text></view>
+    <view class="header-hint"><text>长按下方按钮开始录音</text></view>
+  </view>
+
+  <view class="record-area">
+    <view 
+      class="record-button {{isRecording ? 'recording pressed' : ''}}"
+      bindtouchstart="startRecord"
+      bindtouchend="stopRecord"
+      bindtouchcancel="stopRecord"
+    >
+      <view class="paw-container">
+        <view class="paw">
+          <view class="pad pad-1"></view>
+          <view class="pad pad-2"></view>
+          <view class="pad pad-3"></view>
+          <view class="pad pad-4"></view>
+          <view class="pad pad-5"></view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="record-duration" wx:if="{{isRecording}}">
+      <text class="duration-text">{{formatDuration(recordDuration)}}</text>
+    </view>
+    
+    <view class="record-wave" wx:if="{{isRecording}}">
+      <view class="wave-bar" wx:for="{{waveData}}" wx:key="index" style="height: {{item}}%"></view>
+    </view>
+  </view>
+
+  <view class="sound-list-section" wx:if="{{recordedSounds.length > 0}}">
+    <view class="section-title">
+      <text class="title-icon">🎵</text>
+      <text>录制片段</text>
+    </view>
+    
+    <view class="sound-list">
+      <view class="sound-item" wx:for="{{recordedSounds}}" wx:key="id">
+        <view 
+          class="sound-player {{playingSound === item.id ? 'playing' : ''}}"
+          bindtap="playSound"
+          data-url="{{item.url}}"
+          data-id="{{item.id}}"
+        >
+          <view class="speaker">
+            <view class="wave wave-1"></view>
+            <view class="wave wave-2"></view>
+            <view class="wave wave-3"></view>
+          </view>
+        </view>
+        <view class="sound-info">
+          <text class="sound-desc">{{item.desc}}</text>
+          <text class="sound-duration">{{item.duration.toFixed(1)}}秒</text>
+        </view>
+        <view class="sound-actions">
+          <view class="action-btn" bindtap="reRecord" data-id="{{item.id}}">
+            <text>🔄</text>
+          </view>
+          <view class="action-btn" bindtap="deleteSound" data-id="{{item.id}}">
+            <text>🗑️</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="button-area">
+    <button class="btn-cancel" bindtap="goBack"><text>取消</text></button>
+    <button 
+      class="btn-confirm {{recordedSounds.length === 0 ? 'disabled' : ''}}" 
+      bindtap="confirmRecord"
+    >
+      <text>确认并返回</text>
+    </button>
+  </view>
+
+  <view class="permission-tip" wx:if="{{showPermissionTip}}">
+    <text>请在设置中开启麦克风权限</text>
+    <button class="go-settings" bindtap="openSettings">去设置</button>
+  </view>
+</view>

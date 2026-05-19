@@ -1,0 +1,281 @@
+.container {
+  min-height: 100vh;
+  background-color: #FFF8F0;
+  padding: 32rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24rpx;
+  padding: 0 8rpx;
+}
+
+.header-title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #4A3424;
+  font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+.header-count {
+  font-size: 26rpx;
+  color: #FF9A6B;
+  background: rgba(255, 154, 107, 0.15);
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+}
+
+/* 双列网格 */
+.cat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24rpx;
+}
+
+/* 拍立得卡片 */
+.polaroid-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  box-shadow: 0 6rpx 24rpx rgba(255, 154, 107, 0.18);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 8rpx;
+  break-inside: avoid;
+}
+
+.polaroid-card:active {
+  transform: scale(0.96) !important;
+  box-shadow: 0 10rpx 30rpx rgba(255, 154, 107, 0.25);
+}
+
+/* 拍立得相框 — 白边效果 */
+.photo-frame {
+  margin: 16rpx 16rpx 0;
+  background: #FFFFFF;
+  padding: 10rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+/* 拍立得底部略微突出的边角阴影 */
+.photo-frame::after {
+  content: '';
+  position: absolute;
+  bottom: -4rpx;
+  left: 20rpx;
+  right: 20rpx;
+  height: 6rpx;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 50%;
+  filter: blur(4rpx);
+}
+
+.frame-img {
+  width: 100%;
+  height: 280rpx;
+  border-radius: 8rpx;
+  display: block;
+  background: #F5E6D3;
+}
+
+/* 信息区 */
+.card-info {
+  padding: 0 20rpx 20rpx;
+}
+
+.cat-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #4A3424;
+  font-family: 'ZCOOL KuaiLe', cursive;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info-divider {
+  border-bottom: 2rpx solid #F0E8DC;
+  margin: 12rpx 0;
+}
+
+.meta-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.meta-line:last-child {
+  margin-bottom: 0;
+}
+
+.meta-icon {
+  font-size: 20rpx;
+  margin-right: 8rpx;
+  flex-shrink: 0;
+}
+
+.meta-text {
+  font-size: 24rpx;
+  color: #8B7355;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* ===== 空状态（保持原样） ===== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 120rpx;
+}
+
+.empty-illustration {
+  width: 300rpx;
+  height: 300rpx;
+  margin-bottom: 40rpx;
+}
+
+.cat-illustration {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cat-body {
+  position: absolute;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, #FFB088 0%, #FF9A6B 100%);
+  border-radius: 80rpx 80rpx 60rpx 60rpx;
+}
+
+.cat-head {
+  position: absolute;
+  top: 60rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140rpx;
+  height: 140rpx;
+  background: linear-gradient(135deg, #FFB088 0%, #FF9A6B 100%);
+  border-radius: 50%;
+}
+
+.cat-ear {
+  position: absolute;
+  top: -20rpx;
+  width: 40rpx;
+  height: 50rpx;
+  background: linear-gradient(135deg, #FFB088 0%, #FF9A6B 100%);
+  border-radius: 50% 50% 0 0;
+}
+
+.cat-ear::after {
+  content: '';
+  position: absolute;
+  top: 8rpx;
+  left: 8rpx;
+  width: 24rpx;
+  height: 30rpx;
+  background: #FFE4D4;
+  border-radius: 50% 50% 0 0;
+}
+
+.cat-ear-left {
+  left: 8rpx;
+  transform: rotate(-30deg);
+}
+
+.cat-ear-right {
+  right: 8rpx;
+  transform: rotate(30deg);
+}
+
+.cat-face {
+  position: absolute;
+  top: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cat-eye {
+  position: absolute;
+  width: 28rpx;
+  height: 28rpx;
+  background: #4A3424;
+  border-radius: 50%;
+  top: 0;
+}
+
+.cat-eye::after {
+  content: '';
+  position: absolute;
+  top: 6rpx;
+  left: 6rpx;
+  width: 12rpx;
+  height: 12rpx;
+  background: #FFFFFF;
+  border-radius: 50%;
+}
+
+.cat-eye-left {
+  left: -30rpx;
+}
+
+.cat-eye-right {
+  right: -30rpx;
+}
+
+.cat-nose {
+  position: absolute;
+  top: 36rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16rpx;
+  height: 10rpx;
+  background: #FF7B7B;
+  border-radius: 50%;
+}
+
+.cat-mouth {
+  position: absolute;
+  top: 50rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30rpx;
+  height: 15rpx;
+  border-bottom: 4rpx solid #4A3424;
+  border-radius: 0 0 30rpx 30rpx;
+}
+
+.cat-tail {
+  position: absolute;
+  bottom: 50rpx;
+  right: 40rpx;
+  width: 60rpx;
+  height: 20rpx;
+  background: linear-gradient(90deg, #FF9A6B, #FFB088);
+  border-radius: 10rpx;
+  transform: rotate(45deg);
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #4A3424;
+  margin-bottom: 12rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #8B7355;
+}

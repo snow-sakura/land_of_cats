@@ -1,0 +1,44 @@
+<div class="page-header">
+  <div class="page-title">新增猫咪</div>
+  <div class="page-subtitle">创建一个新的猫咪档案</div>
+</div>
+
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<form action="/<%= managePath %>/cats" method="POST" enctype="multipart/form-data">
+  <%- include('cat-form', { cat: null, isNew: true, openids: typeof openids !== 'undefined' ? openids : [] }) %>
+
+  <!-- 照片上传 -->
+  <div class="card">
+    <div class="card-title">照片 <span class="required">*</span></div>
+    <div class="form-group">
+      <div class="file-upload">
+        <input type="file" name="photoFiles" class="form-input" multiple accept="image/*">
+      </div>
+      <div class="form-hint">可一次选择多张照片，首张将作为封面</div>
+    </div>
+  </div>
+
+  <!-- 音频上传 -->
+  <div class="card">
+    <div class="card-title">音频</div>
+    <div class="form-group">
+      <div class="file-upload">
+        <input type="file" name="soundFiles" class="form-input" multiple accept="audio/*">
+      </div>
+      <div class="form-hint">可一次选择多个音频文件</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">叫声描述</label>
+      <input type="text" name="soundDesc" class="form-input" placeholder="如：开心的叫声、警惕的叫声（选填）">
+    </div>
+  </div>
+
+  <!-- 提交 -->
+  <div class="card" style="display:flex;gap:8px;">
+    <button type="submit" class="btn btn-primary">创建猫咪档案</button>
+    <a href="/<%= managePath %>/cats" class="btn btn-outline">取消</a>
+  </div>
+</form>

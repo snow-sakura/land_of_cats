@@ -1,0 +1,278 @@
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<!-- ========== 查看模式 ========== -->
+<div id="viewMode">
+  <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="page-title">猫咪详情 — <%= cat.nickname %></div>
+      <div class="page-subtitle">
+        <a href="/<%= managePath %>/cats" style="color:#FF9A6B;text-decoration:none;">← 返回列表</a>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-primary" onclick="toggleEdit()">✏️ 编辑</button>
+      <button class="btn btn-danger btn-delete-confirm" data-url="/<%= managePath %>/cats/<%= cat.id %>/delete">🗑️ 删除</button>
+    </div>
+  </div>
+
+  <!-- 照片 -->
+  <% if (cat.photos.length > 0) { %>
+  <div class="card">
+    <div class="card-title">照片（<%= cat.photos.length %>）</div>
+    <div class="photo-grid">
+      <% cat.photos.forEach(p => { %>
+      <img src="<%= p.url %>" class="preview-img" alt="">
+      <% }) %>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- 基本信息 -->
+  <div class="card">
+    <div class="card-title">基本信息</div>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">ID</div>
+        <div class="detail-value"><%= cat.id %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">昵称</div>
+        <div class="detail-value"><strong><%= cat.nickname %></strong></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">所属用户</div>
+        <div class="detail-value"><%= typeof userDisplay !== 'undefined' ? userDisplay : cat.raw.openid %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">创建时间</div>
+        <div class="detail-value"><%= new Date(cat.createTime).toLocaleString('zh-CN') %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">更新时间</div>
+        <div class="detail-value"><%= new Date(cat.updateTime).toLocaleString('zh-CN') %></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 外貌特征 -->
+  <div class="card">
+    <div class="card-title">外貌特征</div>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">毛色</div>
+        <div class="detail-value">
+          <% (cat.attributes.coatColors || []).forEach(color => { %>
+          <span class="tag"><%= color %></span>
+          <% }) %>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">毛长</div>
+        <div class="detail-value"><%= cat.attributes.hairLength || '—' %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">体型</div>
+        <div class="detail-value"><%= cat.attributes.bodyType || '—' %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">显著特征</div>
+        <div class="detail-value"><%= cat.attributes.specialFeatures || '—' %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">眼部颜色</div>
+        <div class="detail-value"><%= cat.attributes.eyeColor || '—' %></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 性格行为 -->
+  <div class="card">
+    <div class="card-title">性格行为</div>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">性格标签</div>
+        <div class="detail-value">
+          <% (cat.attributes.personalities || []).forEach(p => { %>
+          <span class="tag"><%= p %></span>
+          <% }) %>
+          <% if (!cat.attributes.personalities || cat.attributes.personalities.length === 0) { %>—<% } %>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">与其他猫关系</div>
+        <div class="detail-value"><%= cat.attributes.relationships || '—' %></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 健康状态 -->
+  <div class="card">
+    <div class="card-title">健康状态</div>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">健康状况</div>
+        <div class="detail-value"><%= cat.attributes.healthStatus || '—' %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">健康备注</div>
+        <div class="detail-value"><%= cat.attributes.healthNote || '—' %></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 位置 -->
+  <div class="card">
+    <div class="card-title">遇见地点</div>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">地点名称</div>
+        <div class="detail-value"><%= cat.location.name || '—' %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">地址</div>
+        <div class="detail-value"><%= cat.location.address || '—' %></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">坐标</div>
+        <div class="detail-value"><%= cat.location.latitude %>, <%= cat.location.longitude %></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 音频 -->
+  <% if (cat.sounds.length > 0) { %>
+  <div class="card">
+    <div class="card-title">声音记录（<%= cat.sounds.length %>）</div>
+    <% cat.sounds.forEach(s => { %>
+    <div class="sound-item">
+      <button class="sound-play-btn" onclick="playSound('<%= s.url %>', this)">▶</button>
+      <div class="sound-info">
+        <div class="sound-desc"><%= s.desc || '猫咪叫声' %></div>
+        <div class="sound-duration"><%= Number(s.duration || 0).toFixed(1) %>秒</div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <!-- 备注 -->
+  <% if (cat.notes) { %>
+  <div class="card">
+    <div class="card-title">备注故事</div>
+    <p style="line-height:1.8;color:#4A3728;font-size:14px;white-space:pre-wrap;"><%= cat.notes %></p>
+  </div>
+  <% } %>
+
+  <div class="card" style="display:flex;gap:8px;">
+    <a href="/<%= managePath %>/cats" class="btn btn-outline">← 返回列表</a>
+  </div>
+</div>
+
+<!-- ========== 编辑模式 ========== -->
+<div id="editMode" style="display:none;">
+  <div class="page-header">
+    <div class="page-title">编辑猫咪 — <%= cat.nickname %></div>
+    <div class="page-subtitle">修改猫咪档案信息</div>
+  </div>
+
+  <form action="/<%= managePath %>/cats/<%= cat.id %>/update" method="POST" enctype="multipart/form-data">
+    <!-- 现有照片 -->
+    <div class="card">
+      <div class="card-title">现有照片</div>
+      <div class="existing-files" id="existingPhotos">
+        <% cat.photos.forEach(p => { %>
+        <div class="existing-photo" data-pid="<%= p.id %>">
+          <img src="<%= p.url %>">
+          <button type="button" class="del-btn" onclick="removePhoto('<%= p.id %>')">✕</button>
+        </div>
+        <% }) %>
+      </div>
+      <input type="hidden" name="keepPhotoIds" id="keepPhotoIds" value="<%= cat.photos.map(p => p.id).join(',') %>">
+      <div class="form-group">
+        <label class="form-label">添加新照片</label>
+        <input type="file" name="photoFiles" class="form-input" multiple accept="image/*">
+      </div>
+    </div>
+
+    <!-- 现有音频 -->
+    <div class="card">
+      <div class="card-title">现有音频</div>
+      <div id="existingSounds">
+        <% if (cat.sounds.length > 0) { %>
+        <% cat.sounds.forEach(s => { %>
+        <div class="existing-sound" data-sid="<%= s.id %>">
+          <span style="font-size:13px;"><%= s.desc || '猫咪叫声' %>（<%= Number(s.duration || 0).toFixed(1) %>秒）</span>
+          <button type="button" class="del-btn" onclick="removeSound('<%= s.id %>')">删除</button>
+        </div>
+        <% }) %>
+        <% } else { %>
+        <p style="color:#999;font-size:13px;">暂无音频</p>
+        <% } %>
+      </div>
+      <input type="hidden" name="keepSoundIds" id="keepSoundIds" value="<%= cat.sounds.map(s => s.id).join(',') %>">
+      <div class="form-group" style="margin-top:12px;">
+        <label class="form-label">添加新音频</label>
+        <input type="file" name="soundFiles" class="form-input" multiple accept="audio/*">
+      </div>
+    </div>
+
+    <!-- 共用表单字段 -->
+    <%- include('cat-form', { cat: cat }) %>
+
+    <!-- 提交 -->
+    <div class="card" style="display:flex;gap:8px;">
+      <button type="submit" class="btn btn-primary">保存修改</button>
+      <button type="button" class="btn btn-outline" onclick="cancelEdit()">取消</button>
+    </div>
+  </form>
+</div>
+
+<script>
+// 查看/编辑模式切换
+function toggleEdit() {
+  document.getElementById('viewMode').style.display = 'none'
+  document.getElementById('editMode').style.display = 'block'
+  window.scrollTo(0, 0)
+}
+function cancelEdit() {
+  document.getElementById('viewMode').style.display = 'block'
+  document.getElementById('editMode').style.display = 'none'
+}
+
+// 管理现有照片
+function removePhoto(id) {
+  const input = document.getElementById('keepPhotoIds')
+  const ids = input.value.split(',').filter(i => i !== id)
+  input.value = ids.join(',')
+  const el = document.querySelector('.existing-photo[data-pid="' + id + '"]')
+  if (el) el.remove()
+}
+
+// 管理现有音频
+function removeSound(id) {
+  const input = document.getElementById('keepSoundIds')
+  const ids = input.value.split(',').filter(i => i !== id)
+  input.value = ids.join(',')
+  const el = document.querySelector('.existing-sound[data-sid="' + id + '"]')
+  if (el) el.remove()
+}
+
+// 音频播放
+function playSound(url, btn) {
+  if (window._soundAudio) {
+    window._soundAudio.pause()
+    window._soundAudio = null
+    document.querySelectorAll('.sound-play-btn').forEach(b => b.textContent = '▶')
+  }
+  const audio = new Audio(url.startsWith('http') ? url : 'http://localhost:3000' + url)
+  window._soundAudio = audio
+  btn.textContent = '⏸'
+  audio.addEventListener('ended', () => {
+    btn.textContent = '▶'
+    window._soundAudio = null
+  })
+  audio.play()
+}
+</script>

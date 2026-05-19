@@ -1,0 +1,177 @@
+<%
+// 猫咪属性常量（与前端 constants/cat-tags.js 保持一致）
+const COAT_COLORS = ['橘色', '白色', '黑色', '灰色', '狸花', '三花', '玳瑁', '奶牛', '其他']
+const HAIR_LENGTH = ['长毛', '短毛', '无毛']
+const BODY_TYPE = ['偏瘦', '适中', '偏胖']
+const EYE_COLOR = ['黄色', '绿色', '蓝色', '异瞳', '其他']
+const HEALTH_STATUS = ['健康', '已绝育', '待绝育', '受伤', '治疗中', '待救助', '已领养']
+const PERSONALITIES = ['亲人', '胆小', '活泼', '安静', '贪吃', '高冷', '粘人', '凶凶', '爱撒娇', '喜欢摸摸']
+
+const c = cat?.attributes || {}
+const loc = cat?.location || {}
+%>
+
+<!-- 基本信息 -->
+<div class="card">
+  <div class="card-title">基本信息</div>
+  <div class="form-group">
+    <label class="form-label">昵称 <span class="required">*</span></label>
+    <input type="text" name="nickname" class="form-input" value="<%= cat?.nickname || '' %>" placeholder="请输入猫咪昵称" required>
+  </div>
+  <% if (typeof isNew !== 'undefined' && isNew) { %>
+  <div class="form-group">
+    <label class="form-label">所属用户</label>
+    <div class="inline-flex">
+      <select name="openid" class="form-select" style="flex:1;">
+        <% if (typeof openidUsers !== 'undefined' && openidUsers.length > 0) { %>
+        <option value="">-- 选择用户 --</option>
+        <% openidUsers.forEach(u => { %>
+        <option value="<%= u.openid %>"><%= u.nickname || u.openid %></option>
+        <% }) %>
+        <% } else { %>
+        <option value="">-- 暂无用户数据 --</option>
+        <% } %>
+        <option value="__custom__">-- 手动输入 openid --</option>
+      </select>
+      <input type="text" name="customOpenid" class="form-input" placeholder="或手动输入 openid" style="flex:1;">
+    </div>
+    <div class="form-hint">选择该猫咪关联的小程序用户，可在下方按 openid 搜索</div>
+  </div>
+  <% } %>
+</div>
+
+<!-- 外貌特征 -->
+<div class="card">
+  <div class="card-title">外貌特征</div>
+
+  <div class="form-group">
+    <label class="form-label">毛色 <span class="required">*</span></label>
+    <div class="checkbox-group">
+      <% COAT_COLORS.forEach(color => { %>
+      <label class="checkbox-label">
+        <input type="checkbox" name="coatColors" value="<%= color %>" <%= (c.coatColors || []).includes(color) ? 'checked' : '' %>>
+        <%= color %>
+      </label>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">毛长</label>
+    <div class="radio-group">
+      <% HAIR_LENGTH.forEach(h => { %>
+      <label class="radio-label">
+        <input type="radio" name="hairLength" value="<%= h %>" <%= c.hairLength === h ? 'checked' : '' %>>
+        <%= h %>
+      </label>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">体型</label>
+    <div class="radio-group">
+      <% BODY_TYPE.forEach(b => { %>
+      <label class="radio-label">
+        <input type="radio" name="bodyType" value="<%= b %>" <%= c.bodyType === b ? 'checked' : '' %>>
+        <%= b %>
+      </label>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">显著特征</label>
+    <input type="text" name="specialFeatures" class="form-input" value="<%= c.specialFeatures || '' %>" placeholder="如：尾巴受伤、左耳有缺口等">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">眼部颜色</label>
+    <div class="radio-group">
+      <% EYE_COLOR.forEach(e => { %>
+      <label class="radio-label">
+        <input type="radio" name="eyeColor" value="<%= e %>" <%= c.eyeColor === e ? 'checked' : '' %>>
+        <%= e %>
+      </label>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+<!-- 健康状态 -->
+<div class="card">
+  <div class="card-title">健康状态</div>
+
+  <div class="form-group">
+    <label class="form-label">健康状况</label>
+    <div class="radio-group">
+      <% HEALTH_STATUS.forEach(h => { %>
+      <label class="radio-label">
+        <input type="radio" name="healthStatus" value="<%= h %>" <%= c.healthStatus === h ? 'checked' : '' %>>
+        <%= h %>
+      </label>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">健康备注</label>
+    <input type="text" name="healthNote" class="form-input" value="<%= c.healthNote || '' %>" placeholder="健康状况补充说明">
+  </div>
+</div>
+
+<!-- 性格行为 -->
+<div class="card">
+  <div class="card-title">性格行为</div>
+
+  <div class="form-group">
+    <label class="form-label">性格标签 <span class="required">*</span></label>
+    <div class="checkbox-group">
+      <% PERSONALITIES.forEach(p => { %>
+      <label class="checkbox-label">
+        <input type="checkbox" name="personalities" value="<%= p %>" <%= (c.personalities || []).includes(p) ? 'checked' : '' %>>
+        <%= p %>
+      </label>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">与其他猫关系</label>
+    <input type="text" name="relationships" class="form-input" value="<%= c.relationships || '' %>" placeholder="如：跟小花关系好、怕大橘">
+  </div>
+</div>
+
+<!-- 遇见地点 -->
+<div class="card">
+  <div class="card-title">遇见地点</div>
+
+  <div class="form-group">
+    <label class="form-label">地点名称 <span class="required">*</span></label>
+    <input type="text" name="location_name" class="form-input" value="<%= loc.name || '' %>" placeholder="如：小区花园、学校操场" required>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">详细地址</label>
+    <input type="text" name="location_address" class="form-input" value="<%= loc.address || '' %>" placeholder="可选填详细地址">
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">纬度</label>
+      <input type="number" step="0.0000001" name="latitude" class="form-input" value="<%= loc.latitude || '' %>" placeholder="0">
+    </div>
+    <div class="form-group">
+      <label class="form-label">经度</label>
+      <input type="number" step="0.0000001" name="longitude" class="form-input" value="<%= loc.longitude || '' %>" placeholder="0">
+    </div>
+  </div>
+</div>
+
+<!-- 备注故事 -->
+<div class="card">
+  <div class="card-title">备注故事</div>
+  <div class="form-group">
+    <textarea name="notes" class="form-textarea" placeholder="关于这只猫咪的故事或备注..."><%= cat?.notes || '' %></textarea>
+  </div>
+</div>

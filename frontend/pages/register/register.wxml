@@ -1,0 +1,52 @@
+<view class="container">
+  <view class="register-header">
+    <text class="register-title">创建账号</text>
+    <text class="register-desc">加入流浪猫足迹，开始记录</text>
+  </view>
+
+  <view class="form-area">
+    <!-- 头像（选填） -->
+    <view class="avatar-section" bindtap="chooseAvatar">
+      <view class="avatar-picker">
+        <image class="avatar-img" wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill" />
+        <view class="avatar-placeholder" wx:else>
+          <text class="avatar-plus">+</text>
+        </view>
+      </view>
+      <text class="avatar-hint">设置头像（选填）</text>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">昵称 <text class="required">*</text></text>
+      <input class="form-input" type="text" placeholder="给猫咪起的名字或你的昵称"
+        value="{{nickname}}" bindinput="inputNickname" maxlength="20" />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">用户名 <text class="required">*</text></text>
+      <input class="form-input" type="text" placeholder="字母、数字或下划线" maxlength="20"
+        value="{{username}}" bindinput="inputUsername" />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">密码 <text class="required">*</text></text>
+      <input class="form-input" type="text" password="{{!showPassword}}" placeholder="至少 6 位密码"
+        value="{{password}}" bindinput="inputPassword" maxlength="30" />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">手机号</text>
+      <input class="form-input" type="text" placeholder="选填，用于短信登录" maxlength="11"
+        value="{{phone}}" bindinput="inputPhone" />
+    </view>
+
+    <button class="btn-submit" bindtap="handleRegister" loading="{{loading}}">
+      <text>注册并登录</text>
+    </button>
+  </view>
+
+  <view class="login-link">
+    <text>已有账号？</text>
+    <text class="link-text" bindtap="goToLogin">立即登录</text>
+  </view>
+</view>

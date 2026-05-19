@@ -1,0 +1,162 @@
+.custom-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0 -4rpx 20rpx rgba(255, 154, 107, 0.1);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.tab-item.active {
+  transform: translateY(-4rpx);
+}
+
+.tab-icon {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8rpx;
+}
+
+.cat-paw {
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.pad {
+  position: absolute;
+  border-radius: 50%;
+  background: #C49B7D;
+  transition: background 0.3s ease;
+}
+
+.tab-item.active .pad {
+  background: #FF9A6B;
+}
+
+.pad-1 {
+  top: 2rpx;
+  left: 8rpx;
+  width: 10rpx;
+  height: 10rpx;
+}
+
+.pad-2 {
+  top: 2rpx;
+  right: 8rpx;
+  width: 10rpx;
+  height: 10rpx;
+}
+
+.pad-3 {
+  bottom: 2rpx;
+  left: 0;
+  width: 8rpx;
+  height: 8rpx;
+}
+
+.pad-4 {
+  bottom: 2rpx;
+  right: 0;
+  width: 8rpx;
+  height: 8rpx;
+}
+
+.pad-5 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14rpx;
+  height: 14rpx;
+}
+
+.plus-icon {
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-horizontal, .plus-vertical {
+  position: absolute;
+  background: #C49B7D;
+  border-radius: 4rpx;
+  transition: background 0.3s ease;
+}
+
+.tab-item.active .plus-horizontal,
+.tab-item.active .plus-vertical {
+  background: #FF9A6B;
+}
+
+.plus-horizontal {
+  width: 30rpx;
+  height: 6rpx;
+}
+
+.plus-vertical {
+  width: 6rpx;
+  height: 30rpx;
+}
+
+/* 人形图标 */
+.person-icon {
+  position: relative;
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.person-head {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #C49B7D;
+  transition: background 0.3s ease;
+  margin-bottom: 2rpx;
+}
+
+.person-body {
+  width: 28rpx;
+  height: 18rpx;
+  border-radius: 14rpx 14rpx 0 0;
+  background: #C49B7D;
+  transition: background 0.3s ease;
+}
+
+.tab-item.active .person-head,
+.tab-item.active .person-body {
+  background: #FF9A6B;
+}
+
+.tab-text {
+  font-size: 22rpx;
+  color: #C49B7D;
+  transition: color 0.3s ease;
+}
+
+.tab-item.active .tab-text {
+  color: #FF9A6B;
+}

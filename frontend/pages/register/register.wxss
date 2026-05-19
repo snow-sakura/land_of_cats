@@ -1,0 +1,142 @@
+.container {
+  min-height: 100vh;
+  background-color: #FFF8F0;
+  padding: 24rpx 48rpx 140rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.register-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4A3424;
+  margin-bottom: 12rpx;
+  font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+.register-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #8B7355;
+}
+
+.form-area {
+  width: 100%;
+  margin-bottom: 36rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 头像选择 */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36rpx;
+}
+
+.avatar-picker {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4rpx dashed #E8D5C4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14rpx;
+  background: #FFFFFF;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-plus {
+  font-size: 56rpx;
+  color: #C49B7D;
+  font-weight: 300;
+}
+
+.avatar-hint {
+  font-size: 24rpx;
+  color: #8B7355;
+}
+
+.input-group {
+  margin-bottom: 28rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 26rpx;
+  color: #4A3424;
+  font-weight: 600;
+  margin-bottom: 10rpx;
+}
+
+.required {
+  color: #FF7B7B;
+}
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #4A3424;
+  box-sizing: border-box;
+  border: 2rpx solid #F0E8DC;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #FF9A6B;
+}
+
+.btn-submit {
+  width: 80%;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: linear-gradient(135deg, #FF9A6B, #FFB088);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 48rpx;
+  border: none;
+  margin-top: 8rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255, 154, 107, 0.3);
+}
+
+.btn-submit::after {
+  border: none;
+}
+
+.login-link {
+  font-size: 26rpx;
+  color: #8B7355;
+  text-align: center;
+}
+
+.link-text {
+  color: #FF9A6B;
+  font-weight: 600;
+}

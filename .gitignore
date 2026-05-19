@@ -1,0 +1,25 @@
+# 依赖
+backend/node_modules/
+frontend/node_modules/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 上传文件（运行时生成，不纳入版本控制）
+backend/uploads/photos/
+backend/uploads/sounds/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# 微信开发者工具
+frontend/project.private.config.json

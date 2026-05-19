@@ -1,0 +1,205 @@
+.container {
+  min-height: 100vh;
+  background-color: #FFF8F0;
+  padding: 24rpx 48rpx 140rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.login-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4A3424;
+  margin-bottom: 12rpx;
+  font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+.login-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #8B7355;
+}
+
+/* Tab 切换 */
+.tab-bar {
+  display: flex;
+  background: #F5F0EA;
+  border-radius: 20rpx;
+  padding: 6rpx;
+  margin-bottom: 36rpx;
+  width: 100%;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 18rpx 0;
+  font-size: 28rpx;
+  color: #8B7355;
+  border-radius: 16rpx;
+  transition: all 0.3s;
+}
+
+.tab-active {
+  background: #FFFFFF;
+  color: #FF9A6B;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(255, 154, 107, 0.15);
+}
+
+/* 表单区域 */
+.form-area {
+  width: 100%;
+  margin-bottom: 36rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 微信登录 */
+.wx-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36rpx;
+}
+
+.wx-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(7, 193, 96, 0.25);
+}
+
+.wx-icon-text {
+  font-size: 48rpx;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.wx-desc {
+  font-size: 26rpx;
+  color: #8B7355;
+}
+
+.btn-wx-login {
+  width: 80%;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 48rpx;
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(7, 193, 96, 0.3);
+}
+
+.btn-wx-login::after {
+  border: none;
+}
+
+/* 输入组 */
+.input-group {
+  margin-bottom: 28rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 26rpx;
+  color: #4A3424;
+  font-weight: 600;
+  margin-bottom: 10rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #4A3424;
+  box-sizing: border-box;
+  border: 2rpx solid #F0E8DC;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #FF9A6B;
+}
+
+.code-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.code-input {
+  flex: 1;
+}
+
+.btn-code {
+  width: 200rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(135deg, #FF9A6B, #FFB088);
+  color: #FFFFFF;
+  font-size: 26rpx;
+  border-radius: 20rpx;
+  border: none;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.btn-code::after {
+  border: none;
+}
+
+.btn-code-disabled {
+  background: #D4C5B8;
+  box-shadow: none;
+}
+
+/* 提交按钮 */
+.btn-submit {
+  width: 80%;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: linear-gradient(135deg, #FF9A6B, #FFB088);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 48rpx;
+  border: none;
+  margin-top: 8rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255, 154, 107, 0.3);
+}
+
+.btn-submit::after {
+  border: none;
+}
+
+/* 注册链接 */
+.register-link {
+  font-size: 26rpx;
+  color: #8B7355;
+  text-align: center;
+}
+
+.link-text {
+  color: #FF9A6B;
+  font-weight: 600;
+}

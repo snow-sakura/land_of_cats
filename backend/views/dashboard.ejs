@@ -1,0 +1,108 @@
+<div class="page-header">
+  <div class="page-title">仪表盘</div>
+  <div class="page-subtitle">猫咪数据概览与系统状态</div>
+</div>
+
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<% if (stats) { %>
+<!-- 统计卡片 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-number"><%= stats.totalCats %></div>
+    <div class="stat-label">猫咪总数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number"><%= stats.totalPhotos %></div>
+    <div class="stat-label">照片总数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number"><%= stats.totalSounds %></div>
+    <div class="stat-label">音频总数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number"><%= stats.totalUsers %></div>
+    <div class="stat-label">独立用户</div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <!-- 最近添加 -->
+  <div class="card">
+    <div class="card-title">最近添加的猫咪</div>
+    <% if (stats.recentCats.length === 0) { %>
+    <div class="empty-state"><p>暂无猫咪数据</p></div>
+    <% } else { %>
+    <table>
+      <thead>
+        <tr><th>昵称</th><th>用户</th><th>时间</th></tr>
+      </thead>
+      <tbody>
+        <% stats.recentCats.forEach(c => { %>
+        <tr>
+          <td><a href="/<%= managePath %>/cats/<%= c.id %>" style="color:#FF9A6B;text-decoration:none;font-weight:500;"><%= c.nickname %></a></td>
+          <td style="font-size:12px;color:#999;"><%= c.openid %></td>
+          <td style="font-size:12px;color:#999;"><%= new Date(c.createTime).toLocaleString('zh-CN') %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+
+  <!-- 用户分布 -->
+  <div class="card">
+    <div class="card-title">用户数据分布</div>
+    <% if (stats.perUser.length === 0) { %>
+    <div class="empty-state"><p>暂无数据</p></div>
+    <% } else { %>
+    <table>
+      <thead>
+        <tr><th>用户（openid）</th><th>猫咪数</th></tr>
+      </thead>
+      <tbody>
+        <% stats.perUser.forEach(u => { %>
+        <tr>
+          <td style="font-size:12px;color:#666;"><%= u.openid %></td>
+          <td><strong><%= u.count %></strong></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<!-- 系统配置 -->
+<div class="card" style="margin-top:16px;">
+  <div class="card-title">系统配置</div>
+  <div class="config-list">
+    <div class="config-item">
+      <div class="config-key">服务端口</div>
+      <div class="config-value"><%= serverPort %></div>
+    </div>
+    <div class="config-item">
+      <div class="config-key">数据库地址</div>
+      <div class="config-value"><%= dbConfig.host %>:<%= dbConfig.port %></div>
+    </div>
+    <div class="config-item">
+      <div class="config-key">数据库名</div>
+      <div class="config-value"><%= dbConfig.database %></div>
+    </div>
+    <div class="config-item">
+      <div class="config-key">数据库用户</div>
+      <div class="config-value"><%= dbConfig.user %></div>
+    </div>
+    <div class="config-item">
+      <div class="config-key">照片大小限制</div>
+      <div class="config-value"><%= (uploadConfig.maxPhotoSize / 1024 / 1024).toFixed(0) %>MB</div>
+    </div>
+    <div class="config-item">
+      <div class="config-key">音频大小限制</div>
+      <div class="config-value"><%= (uploadConfig.maxSoundSize / 1024 / 1024).toFixed(0) %>MB</div>
+    </div>
+  </div>
+</div>

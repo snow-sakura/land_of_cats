@@ -1,0 +1,254 @@
+<view class="container">
+  <scroll-view scroll-y class="form-scroll">
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">📷</text>
+        <text>照片</text>
+      </view>
+      <view class="photo-grid">
+        <view 
+          class="photo-item" 
+          wx:for="{{photos}}" 
+          wx:key="id"
+          bindtap="previewPhoto"
+          data-index="{{index}}"
+        >
+          <image src="{{item.url}}" mode="aspectFill" class="photo-img" />
+          <view class="photo-delete" catchtap="deletePhoto" data-index="{{index}}">
+            <text>×</text>
+          </view>
+        </view>
+        <view 
+          class="photo-add" 
+          wx:if="{{photos.length < 9}}"
+          bindtap="choosePhoto"
+        >
+          <view class="add-icon"><text>+</text></view>
+        </view>
+      </view>
+      <text class="section-hint">至少1张，最多9张</text>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">🎤</text>
+        <text>声音</text>
+      </view>
+      <view 
+        class="sound-area" 
+        bindtap="goToRecord"
+        wx:if="{{!sounds.length}}"
+      >
+        <view class="sound-icon"><text>🐾</text></view>
+        <text class="sound-text">点击录制猫咪叫声</text>
+      </view>
+      <view class="sound-list" wx:else>
+        <view class="sound-item" wx:for="{{sounds}}" wx:key="id">
+          <view class="sound-play" bindtap="playSound" data-url="{{item.url}}" data-id="{{item.id}}">
+            <view class="play-btn"><text>{{playingSound === item.id ? '⏸' : '▶'}}</text></view>
+          </view>
+          <view class="sound-info">
+            <text class="sound-desc">{{item.desc || '猫咪叫声'}}</text>
+            <text class="sound-duration">{{item.duration.toFixed(1)}}s</text>
+          </view>
+          <view class="sound-delete" bindtap="deleteSound" data-id="{{item.id}}"><text>删除</text></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">🐱</text>
+        <text>外貌特征</text>
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">毛色</text>
+        <view class="tag-group">
+          <view 
+            class="tag {{coatColors.includes(item.label) ? 'tag-selected' : 'tag-default'}}"
+            wx:for="{{coatColorsOptions}}"
+            wx:key="value"
+            bindtap="toggleCoatColor"
+            data-value="{{item.label}}"
+          >
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">毛长</text>
+        <view class="radio-group">
+          <view 
+            class="radio {{hairLength === item.value ? 'radio-selected' : 'radio-default'}}"
+            wx:for="{{hairLengthOptions}}"
+            wx:key="value"
+            bindtap="selectHairLength"
+            data-value="{{item.value}}"
+          >
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">体型</text>
+        <view class="radio-group">
+          <view 
+            class="radio {{bodyType === item.value ? 'radio-selected' : 'radio-default'}}"
+            wx:for="{{bodyTypeOptions}}"
+            wx:key="value"
+            bindtap="selectBodyType"
+            data-value="{{item.value}}"
+          >
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">显著特征</text>
+        <input 
+          class="form-input" 
+          placeholder="如：左耳缺角、尾巴折断、戴红色项圈"
+          value="{{specialFeatures}}"
+          bindinput="inputSpecialFeatures"
+          maxlength="50"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">眼部颜色</text>
+        <view class="radio-group">
+          <view 
+            class="radio {{eyeColor === item.value ? 'radio-selected' : 'radio-default'}}"
+            wx:for="{{eyeColorOptions}}"
+            wx:key="value"
+            bindtap="selectEyeColor"
+            data-value="{{item.value}}"
+          >
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">💖</text>
+        <text>性格行为</text>
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">性格标签</text>
+        <view class="tag-group">
+          <view 
+            class="tag {{personalities.includes(item.label) ? 'tag-selected' : 'tag-default'}}"
+            wx:for="{{personalitiesOptions}}"
+            wx:key="value"
+            bindtap="togglePersonality"
+            data-value="{{item.label}}"
+          >
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">与其他猫关系</text>
+        <input 
+          class="form-input" 
+          placeholder="描述与其他流浪猫的互动"
+          value="{{relationships}}"
+          bindinput="inputRelationships"
+          maxlength="100"
+        />
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">🏥</text>
+        <text>健康状态</text>
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">健康状况</text>
+        <view class="radio-group">
+          <view 
+            class="radio {{healthStatus === item.value ? 'radio-selected' : 'radio-default'}}"
+            wx:for="{{healthStatusOptions}}"
+            wx:key="value"
+            bindtap="selectHealthStatus"
+            data-value="{{item.value}}"
+          >
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">健康备注</text>
+        <textarea 
+          class="form-textarea" 
+          placeholder="描述伤口位置、行为异常等"
+          value="{{healthNote}}"
+          bindinput="inputHealthNote"
+          maxlength="100"
+        />
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">📍</text>
+        <text>遇见地点</text>
+      </view>
+      <view 
+        class="location-area" 
+        bindtap="chooseLocation"
+      >
+        <view class="location-icon"><text>🗺️</text></view>
+        <view class="location-info">
+          <text class="location-name">{{location.name || '点击选择遇见地点'}}</text>
+          <text class="location-address">{{location.address || ''}}</text>
+        </view>
+        <text class="location-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">
+        <text class="title-icon">✏️</text>
+        <text>基本信息</text>
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">猫咪昵称</text>
+        <input 
+          class="form-input" 
+          placeholder="为猫咪起个名字"
+          value="{{nickname}}"
+          bindinput="inputNickname"
+          maxlength="20"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">备注故事</text>
+        <textarea 
+          class="form-textarea" 
+          placeholder="关于这只猫的额外故事或投喂心得"
+          value="{{notes}}"
+          bindinput="inputNotes"
+          maxlength="200"
+        />
+      </view>
+    </view>
+
+    <view class="submit-area">
+      <button class="submit-btn" bindtap="saveCat"><text>保存修改</text></button>
+    </view>
+  </scroll-view>
+</view>

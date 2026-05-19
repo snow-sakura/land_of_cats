@@ -1,0 +1,281 @@
+.container {
+  min-height: 100vh;
+  background-color: #FFF8F0;
+  padding: 24rpx 32rpx 140rpx; /* 底部留出 tab 栏空间 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== 未登录 ===== */
+.guest-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.avatar-ring {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 6rpx solid #FFE4D4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28rpx;
+  background: #FFFFFF;
+  box-shadow: 0 8rpx 24rpx rgba(255, 154, 107, 0.15);
+}
+
+.avatar-default {
+  width: 80rpx;
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-head {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: #E8D5C4;
+}
+
+.avatar-body {
+  width: 70rpx;
+  height: 50rpx;
+  border-radius: 35rpx 35rpx 0 0;
+  background: #E8D5C4;
+  margin-top: 4rpx;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-bottom: 36rpx;
+}
+
+.login-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #4A3424;
+  margin-bottom: 12rpx;
+  font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+.login-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #8B7355;
+}
+
+.btn-login {
+  width: 80%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(135deg, #FF9A6B, #FFB088);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 44rpx;
+  border: none;
+  margin-bottom: 48rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255, 154, 107, 0.3);
+}
+
+.btn-login::after {
+  border: none;
+}
+
+.feature-preview {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 20rpx 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(255, 154, 107, 0.1);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.feature-item + .feature-item {
+  border-top: 2rpx solid #F5F0EA;
+}
+
+.feature-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  width: 44rpx;
+  text-align: center;
+}
+
+.feature-text {
+  font-size: 28rpx;
+  color: #4A3424;
+}
+
+/* ===== 已登录 ===== */
+.user-area {
+  width: 100%;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.user-avatar {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4rpx solid #FFE4D4;
+  box-shadow: 0 4rpx 16rpx rgba(255, 154, 107, 0.15);
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-nickname {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #4A3424;
+  margin-bottom: 6rpx;
+  font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+.user-username {
+  display: block;
+  font-size: 24rpx;
+  color: #8B7355;
+}
+
+/* 统计数据 */
+.stats-row {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 24rpx 16rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(255, 154, 107, 0.1);
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FF9A6B;
+  margin-bottom: 6rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #8B7355;
+}
+
+.stat-divider {
+  width: 2rpx;
+  height: 40rpx;
+  background: #F0E8DC;
+}
+
+/* 菜单列表 */
+.menu-list {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(255, 154, 107, 0.1);
+  margin-bottom: 24rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 20rpx;
+  transition: background 0.2s;
+}
+
+.menu-item + .menu-item {
+  border-top: 2rpx solid #F5F0EA;
+}
+
+.menu-item:active {
+  background: #FFF8F0;
+}
+
+.menu-icon {
+  font-size: 34rpx;
+  margin-right: 20rpx;
+  width: 40rpx;
+  text-align: center;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #4A3424;
+}
+
+.menu-tag {
+  font-size: 22rpx;
+  color: #8B7355;
+  margin-right: 12rpx;
+}
+
+.menu-tag-unbound {
+  font-size: 22rpx;
+  color: #C49B7D;
+  margin-right: 12rpx;
+}
+
+.menu-arrow {
+  font-size: 34rpx;
+  color: #C49B7D;
+}
+
+/* 退出按钮 */
+.btn-logout {
+  width: 100%;
+  height: 84rpx;
+  line-height: 84rpx;
+  background: #FFFFFF;
+  color: #FF7B7B;
+  font-size: 28rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #FF7B7B;
+  margin-bottom: 0;
+}
+
+.btn-logout::after {
+  border: none;
+}
+
+.version {
+  font-size: 20rpx;
+  color: #C49B7D;
+  margin-top: 24rpx;
+}
